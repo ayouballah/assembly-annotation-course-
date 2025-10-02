@@ -23,4 +23,4 @@ HIFIASM_SIF="/containers/apptainer/hifiasm_0.25.0.sif"
 # Run hifiasm
 apptainer exec --bind /data "$HIFIASM_SIF" hifiasm -o "$OUTDIR/hifiasm" -t 32 "$READS"
 
-awk '/^S/{print ">"$2;print $3}' hifiasm_assembly/hifiasm.bp.p_ctg.gfa > hifiasm_assembly/assembly.fa
+awk '/^S/{print ">"$2;print $3}' "$OUTDIR/hifiasm.bp.p_ctg.gfa" > "$OUTDIR/assembly.fa"
