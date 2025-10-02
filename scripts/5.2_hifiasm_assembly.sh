@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --cpus-per-task=16
-#SBATCH --mem=64G
+#SBATCH --mem=128G
 #SBATCH --time=1-00:00:00
 #SBATCH --partition=pibu_el8
 #SBATCH --job-name=hifiasm

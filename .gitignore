@@ -1,6 +1,6 @@
 # Data files (usually too large for GitHub)
 data/
-
+busco_downloads/
 # Exclude outputs directory but keep HTML files
 outputs/
 !outputs/**/*.html
