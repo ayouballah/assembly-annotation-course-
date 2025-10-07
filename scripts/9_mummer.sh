@@ -15,7 +15,7 @@ REF=${WORKDIR}/data/references/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa
 FLYE="${WORKDIR}/outputs/flye/assembly.fasta"
 HIFIASM="$WORKDIR/outputs/hifiasm/assembly.fa"
 LJA="$WORKDIR/outputs/lja_assembly/assembly.fasta"
-RESULTDIR="${WORKDIR}/outputs/genomes_comparison"
+RESULTDIR="${WORKDIR}/outputs/genomes_comparison_1"
 mkdir -p $RESULTDIR
 
 #mummer - generate dot plots from .delta files
@@ -47,5 +47,38 @@ apptainer exec --bind /data \
     -t png --large --layout --fat \
     -p LJA \
     genome_LJA.delta
+
+# Generate plots for genome-to-genome comparisons
+echo "Generating genome-to-genome comparison plots..."
+
+# Flye vs Hifiasm
+apptainer exec --bind /data \
+    /containers/apptainer/mummer4_gnuplot.sif mummerplot \
+    -R $FLYE -Q $HIFIASM \
+    -breaklen 1000 \
+    --filter \
+    -t png --large --layout --fat \
+    -p flye_vs_hifiasm \
+    flye_vs_hifiasm.delta
+
+# Flye vs LJA
+apptainer exec --bind /data \
+    /containers/apptainer/mummer4_gnuplot.sif mummerplot \
+    -R $FLYE -Q $LJA \
+    -breaklen 1000 \
+    --filter \
+    -t png --large --layout --fat \
+    -p flye_vs_LJA \
+    flye_vs_LJA.delta
+
+# Hifiasm vs LJA  
+apptainer exec --bind /data \
+    /containers/apptainer/mummer4_gnuplot.sif mummerplot \
+    -R $HIFIASM -Q $LJA \
+    -breaklen 1000 \
+    --filter \
+    -t png --large --layout --fat \
+    -p hifiasm_vs_LJA \
+    hifiasm_vs_LJA.delta
 
 

@@ -14,7 +14,7 @@ REF=${WORKDIR}/data/references/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa
 FLYE="${WORKDIR}/outputs/flye/assembly.fasta"
 HIFIASM="$WORKDIR/outputs/hifiasm/assembly.fa"
 LJA="$WORKDIR/outputs/lja_assembly/assembly.fasta"
-RESULTDIR="${WORKDIR}/outputs/genomes_comparison"
+RESULTDIR="${WORKDIR}/outputs/genomes_comparison_1"
 mkdir -p $RESULTDIR
 
 #nucmer - align assemblies to reference genome
@@ -42,4 +42,34 @@ apptainer exec --bind /data \
     --breaklen 1000 \
     --mincluster 1000 \
     --threads $SLURM_CPUS_PER_TASK \
-    $REF $LJA 
+    $REF $LJA
+
+# Compare genomes against each other (genome-to-genome comparisons)
+echo "Comparing assemblies against each other..."
+
+# Flye vs Hifiasm
+apptainer exec --bind /data \
+    /containers/apptainer/mummer4_gnuplot.sif nucmer \
+    --prefix flye_vs_hifiasm \
+    --breaklen 1000 \
+    --mincluster 1000 \
+    --threads $SLURM_CPUS_PER_TASK \
+    $FLYE $HIFIASM
+
+# Flye vs LJA  
+apptainer exec --bind /data \
+    /containers/apptainer/mummer4_gnuplot.sif nucmer \
+    --prefix flye_vs_LJA \
+    --breaklen 1000 \
+    --mincluster 1000 \
+    --threads $SLURM_CPUS_PER_TASK \
+    $FLYE $LJA
+
+# Hifiasm vs LJA
+apptainer exec --bind /data \
+    /containers/apptainer/mummer4_gnuplot.sif nucmer \
+    --prefix hifiasm_vs_LJA \
+    --breaklen 1000 \
+    --mincluster 1000 \
+    --threads $SLURM_CPUS_PER_TASK \
+    $HIFIASM $LJA 
