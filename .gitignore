@@ -1,6 +1,9 @@
 # Data files (usually too large for GitHub)
 data/
 busco_downloads/
+annotation_part/results/
+annotation_part/logfiles/
+annotation_part/resources/
 # Exclude outputs directory but keep HTML files
 outputs/
 !outputs/**/*.html
